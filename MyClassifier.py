@@ -12,6 +12,9 @@ def run_knn(training, testing, k_value):
     return
 
 
+##
+# Main Method.
+#
 if __name__ == "__main__":
     from general_utils import process_args
 
