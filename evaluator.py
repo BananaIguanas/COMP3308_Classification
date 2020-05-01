@@ -5,7 +5,7 @@ import argparse
 ##
 # Setting up conditions for command line inputs.
 #
-parser = ArgumentParser(description = "Evaluator for Classifiers")
+parser = argparse.ArgumentParser(description = "Evaluator for Classifiers")
 
 parser.add_argument("training",
                     help = "Location of training file to be split into training and testing sets")
