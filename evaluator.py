@@ -13,7 +13,7 @@ parser.add_argument("training",
 parser.add_argument("-b", "--naive", action = "store_true",
                     help = "Run classifier with Naive Bayes algorithm")
 
-parser.add_argument("-n", "--nearest", metavar = "K_VALUE", type = int, dest = 'k'
+parser.add_argument("-n", "--nearest", metavar = "K_VALUE", type = int, dest = 'k',
                     help = "Run classifier with K Nearest Neighbour Algorithm using given K value")
 
 parser.add_argument("-f", "--folds", type = int, default = 10,
