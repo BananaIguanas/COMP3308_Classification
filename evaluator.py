@@ -22,18 +22,22 @@ parser.add_argument("-f", "--folds", type = int, default = 10,
 
 ##
 # Split the data into training and testing sets.
+# Output: A tuple. First value is training_set, second is testing_set.
 #
 def seperate_set(fold, total_folds):
 
 
 ##
 # Run the Evaluation function to compare classifier output to true output.
+# Output: Percentage value (float) of accuracy.
 #
 def evaluate(classifier_out, true_out):
 
 
 ##
 # Gets the true classifications of the testing set.
+# Output: Array of 'true' or 'false' values.
+# Note: 'true' represents a classification of 'yes', 'false' represents 'no'.
 #
 def get_true_output(testing_set):
 
