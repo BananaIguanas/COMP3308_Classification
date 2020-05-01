@@ -1,33 +1,58 @@
 from sys import exit
+from MyClassifier import run_nb, run_knn
+import argparse
+
+##
+# Setting up conditions for command line inputs.
+#
+parser = ArgumentParser(description = "Evaluator for Classifiers")
+
+parser.add_argument("training",
+                    help = "Location of training file to be split into training and testing sets")
+
+parser.add_argument("-b", "--naive", action = "store_true",
+                    help = "Run classifier with Naive Bayes algorithm")
+
+parser.add_argument("-n", "--nearest", metavar = "K_VALUE", type = int, dest = 'k'
+                    help = "Run classifier with K Nearest Neighbour Algorithm using given K value",
+
+parser.add_argument("-f", "--folds", type = int, default = 10,
+                    help  = "Number of folds the Evaluator should run with")
 
 
+##
+# Split the data into training and testing sets.
+#
+def seperate_set(fold, total_folds):
+
+
+##
+# Run the Evaluation function to compare classifier output to true output.
+#
+def evaluate(classifier_out, true_out):
+
+
+##
+# Gets the true classifications of the testing set.
+#
+def get_true_output(testing_set):
+
+
+##
+# Main Method.
+#
 if __name__ == "__main__":
-    training = None
-    mode = None
-    folds = None
-    k_value = None
+    cmd_args = parser.parse_args()
+
     total = 0
 
-    try:
-        training = input("Name of the training file: ")
-        folds = int(input("Number of folds: "))
-        mode = input("Algorithm to run: ")
+    for fold in range(cmd_args.folds):
+        (training_set, testing_set) = seperate_set(fold, cmd_args.folds)
+        true_out = get_true_output(testing_set)
 
-        if mode != "NN" or mode != "NB":
-            raise Exception
+        if cmd_args.naive:
+            total += evaluate(run_nb(training_set, testing_set), true_out)
+        else:
+            total += evaluate(run_nn(training_set, testing_set, cmd_args.k), true_out)
 
-        if mode == "NN":
-            k_value = int(input("K value for Nearest Neighbour: "))
-    except:
-        print("Invalid Arguments. Algorithm must be NN or NB. Folds and K value must be an integer.")
-        exit()
-
-    for i in range(folds):
-        # Run the evaluator.
-
-    print(f"Average accuracy of {folds} folds: {total/folds}%")
-        
-
-
-    
-
+    print(f"Average accuracy of {cmd_args.folds} folds: {total/cmd_args.folds}%")
