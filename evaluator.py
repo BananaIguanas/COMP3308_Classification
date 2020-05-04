@@ -1,6 +1,7 @@
 from sys import exit
 from MyClassifier import run_nb, run_knn
 import argparse
+from general_utils import process_data
 
 ##
 # Setting up conditions for command line inputs.
@@ -24,12 +25,13 @@ parser.add_argument("-f", "--folds", type=int, default=10,
 # Split the data into training and testing sets.
 # Output: A tuple. First value is training_set, second is testing_set.
 #
-def seperate_set(fold, total_folds):
+def seperate_set(unsplit_set, fold, total_folds):
     pass
 
 
 ##
 # Run the Evaluation function to compare classifier output to true output.
+# Input: 2 lists of True or False values.
 # Output: Percentage value (float) of accuracy.
 #
 def evaluate(classifier_out, true_out):
@@ -38,6 +40,7 @@ def evaluate(classifier_out, true_out):
 
 ##
 # Gets the true classifications of the testing set.
+# Input: A list of "Data" objects.
 # Output: Array of 'true' or 'false' values.
 # Note: 'true' represents a classification of 'yes', 'false' represents 'no'.
 #
@@ -52,12 +55,16 @@ if __name__ == "__main__":
     cmd_args = parser.parse_args()
     total = 0
 
-    if cmd_args == "NN" and not cmd_args.k_value:
+    if cmd_args.mode == "NN" and not cmd_args.k_value:
         print("Need to provide K value with Nearest Neighbour.")
         exit()
 
+    # Grab list of Data objects from file.
+    unsplit_set = process_data(cmd_args.training)
+
     for fold in range(cmd_args.folds):
-        (training_set, testing_set) = seperate_set(fold, cmd_args.folds)
+        # Take a list of "Data" objects and split them.
+        (training_set, testing_set) = seperate_set(unsplit_set, fold, cmd_args.folds)
         true_out = get_true_output(testing_set)
 
         if cmd_args.mode == "NB":
