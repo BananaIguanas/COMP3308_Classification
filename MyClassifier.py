@@ -2,11 +2,17 @@
 
 ##
 # Run Naive Bayes.
-# Input: 2 arrays of "Data" objects.
-# Output: Array of "True" or "False" values.
+# Input: 2 lists of "Data" objects.
+# Output: List of "True" or "False" values.
 #
-def run_nb(training_set, testing_set):
-    return
+def run_nb(training_list, testing_list):
+    output = []
+
+    for test_data_obj in testing_list:
+        for train_data_obj in training_list:
+            pass
+
+    return output
 
 
 ##
@@ -14,7 +20,7 @@ def run_nb(training_set, testing_set):
 # Input: 2 arrays of "Data" objects. An integer value K.
 # Output: Array of "True" or "False" values.
 #
-def run_knn(training_set, testing_set, k_value):
+def run_knn(training_list, testing_list, k_value):
     return
 
 
@@ -26,10 +32,12 @@ if __name__ == "__main__":
     from general_utils import process_data
 
     (training_file, testing_file, mode, k_value) = process_args()
-    training_set = process_data(training_file)
-    testing_set = process_data(testing_file)
+
+    # Get list of "Data" objects from a file.
+    training_list = process_data(training_file)
+    testing_list = process_data(testing_file)
 
     if mode == "NB":
-        run_nb(training_set, testing_set)
+        run_nb(training_list, testing_list)
     elif mode == "NN":
-        run_knn(training_set, testing_set, k_value)
+        run_knn(training_list, testing_list, k_value)
