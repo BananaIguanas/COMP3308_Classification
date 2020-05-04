@@ -1,3 +1,5 @@
+
+
 ##
 # Run Naive Bayes.
 #
@@ -7,6 +9,7 @@ def run_nb(training, testing):
 
 ##
 # Run K Nearest Neighbours.
+# Output: Array of "True" or "False" values.
 #
 def run_knn(training, testing, k_value):
     return
