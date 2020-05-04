@@ -16,6 +16,7 @@ def process_args():
 
 ##
 # Process a data file by extracting the data from each row.
+# Input: Location of file. Optional mapping for attribute name to index.
 # Output: A list of "Data" objects representing each row of the file.
 #
 def process_data(data_file, mapping=None):
@@ -26,7 +27,7 @@ def process_data(data_file, mapping=None):
     with open(data_file, "r") as f:
         for line in f:
             row_vals = line.strip().split(",")
-            attributes = row_vals[:-1]
+            attributes = [float(val) for val in row_vals[:-1]]
             class_value = True if row_vals[-1] == "yes" else False
 
             if mapping:
