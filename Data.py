@@ -1,5 +1,9 @@
 class Data:
 
+    ##
+    # Constructor
+    # Input: attributes - List of floats, class_values - Boolean, att_mapping - Set.
+    #
     def __init__(self, attributes, class_value, att_mapping=None):
         self.attributes = attributes
         self.class_value = class_value
