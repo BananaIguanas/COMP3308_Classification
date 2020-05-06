@@ -1,3 +1,4 @@
+from utils.general_utils import calc_euclid_dist
 
 
 ##
@@ -6,13 +7,7 @@
 # Output: List of "True" or "False" values.
 #
 def run_nb(training_list, testing_list):
-    output = []
-
-    for test_data_obj in testing_list:
-        for train_data_obj in training_list:
-            pass
-
-    return output
+    return
 
 
 ##
@@ -21,14 +16,43 @@ def run_nb(training_list, testing_list):
 # Output: Array of "True" or "False" values.
 #
 def run_knn(training_list, testing_list, k_value):
-    return
+    output = []
+
+    for test_data_obj in testing_list:
+        dist_tuple_list = []
+        counter = 0
+
+        for train_data_obj in training_list:
+            # Get the list of floats representing attributes.
+            test_data_vals = test_data_obj.get_all_att()
+            train_data_vals = train_data_obj.get_all_att()
+
+            # Get the euclidean distance and class value.
+            euclid_dist = calc_euclid_dist(test_data_vals, train_data_vals)
+            class_val = train_data_obj.get_class_val()
+
+            # Make tuple of euclid_dist and class_val and add to list.
+            dist_tuple = (euclid_dist, class_val)
+            dist_tuple_list.append(dist_tuple)
+
+        # Sort dist_tuple_list by distance.
+        dist_tuple_list.sort(key=lambda x: x[0])
+
+        # Take the majority of the first k class values.
+        for tuple_obj in dist_tuple_list[:k_value]:
+            counter += 1 if tuple_obj[1] is True else -1
+
+        # Append majority value to output. Break ties with True.
+        output.append(True if counter >= 0 else False)
+
+    return output
 
 
 ##
 # Main Method.
 #
 if __name__ == "__main__":
-    from utils.general_utils import process_args, process_data
+    from utils.general_utils import process_args, process_data, print_output
 
     (training_file, testing_file, mode, k_value) = process_args()
 
@@ -37,6 +61,8 @@ if __name__ == "__main__":
     testing_list = process_data(testing_file)
 
     if mode == "NB":
-        run_nb(training_list, testing_list)
+        output = run_nb(training_list, testing_list)
+        print_output(output)
     elif mode == "NN":
-        run_knn(training_list, testing_list, k_value)
+        output = run_knn(training_list, testing_list, k_value)
+        print_output(output)
