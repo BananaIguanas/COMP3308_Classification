@@ -1,4 +1,5 @@
 from sys import argv
+from math import sqrt
 from .data import Data
 
 
@@ -9,7 +10,7 @@ def process_args():
     training_file = argv[1]
     testing_file = argv[2]
     algorithm = argv[3][-2:]
-    nn_k_value = argv[3][:-2]
+    nn_k_value = int(argv[3][:-2])
 
     return training_file, testing_file, algorithm, nn_k_value
 
@@ -36,3 +37,25 @@ def process_data(data_file, mapping=None):
                 data_list.append(Data(attributes, class_value))
 
     return data_list
+
+
+##
+# Calculate the Euclidean distance between 2 points.
+# Input: 2 Lists of floats.
+# Output: A float representing the Euclidean distance.
+#
+def calc_euclid_dist(first_list, second_list):
+    # List of all items from "first_list" minus "second_list"
+    diff = [first_list[i] - second_list[i] for i in range(len(first_list))]
+    # List of all items from "diff" squared.
+    diff_squared = list(map(lambda x: x**2, diff))
+
+    return sqrt(sum(diff_squared))
+
+
+##
+# Print 'yes' or 'no' values depending on a Boolean value from a list.
+#
+def print_output(boolean_list):
+    for boolean in boolean_list:
+        print('yes' if boolean is True else 'no')
