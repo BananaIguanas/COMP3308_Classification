@@ -28,8 +28,7 @@ def run_knn(training_list, testing_list, k_value):
 # Main Method.
 #
 if __name__ == "__main__":
-    from general_utils import process_args
-    from general_utils import process_data
+    from utils.general_utils import process_args, process_data
 
     (training_file, testing_file, mode, k_value) = process_args()
 

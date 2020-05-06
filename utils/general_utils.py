@@ -1,5 +1,5 @@
 from sys import argv
-from Data import Data
+from .data import Data
 
 
 ##
@@ -20,7 +20,7 @@ def process_args():
 # Output: A list of "Data" objects representing each row of the file.
 #
 def process_data(data_file, mapping=None):
-    data_arr = None
+    data_list = []
 
     # Open up the file and create data objects.
     # First to second last items are attributes. Last item is class value.
@@ -31,8 +31,8 @@ def process_data(data_file, mapping=None):
             class_value = True if row_vals[-1] == "yes" else False
 
             if mapping:
-                data_arr.append(Data(attributes, class_value, mapping))
+                data_list.append(Data(attributes, class_value, mapping))
             else:
-                data_arr.append(Data(attributes, class_value))
+                data_list.append(Data(attributes, class_value))
 
-    return data_arr
+    return data_list

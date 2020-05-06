@@ -1,7 +1,7 @@
 from sys import exit
 from MyClassifier import run_nb, run_knn
 import argparse
-from general_utils import process_data
+from utils.general_utils import process_data
 
 ##
 # Setting up conditions for command line inputs.

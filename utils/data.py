@@ -24,7 +24,7 @@ class Data:
 
     ##
     # Get all attributes
-    # Output: A list containing the outputs.
+    # Output: A list containing the attributes.
     #
     def get_all_att(self):
         return self.attributes
