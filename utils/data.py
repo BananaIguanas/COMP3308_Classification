@@ -2,7 +2,9 @@ class Data:
 
     ##
     # Constructor
-    # Input: attributes - List of floats, class_values - Boolean, att_mapping - Set.
+    # Input: attributes - List of floats.
+    #        class_values - Boolean.
+    #        att_mapping - Set which maps name to an index of the attributes list.
     #
     def __init__(self, attributes, class_value, att_mapping=None):
         self.attributes = attributes
@@ -11,6 +13,8 @@ class Data:
 
     ##
     # Get a specific attribute
+    # Input: Value - An integer representing index of the attribute list. Optionally a string.
+    #        use_mapping - Allows "value" to be a string. Will then map string to index.
     #
     def get_att(self, value, use_mapping=False):
         if use_mapping and self.att_mapping:
