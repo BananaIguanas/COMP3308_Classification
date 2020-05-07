@@ -1,7 +1,7 @@
 from sys import exit
 from MyClassifier import run_nb, run_knn
 import argparse
-from utils.general_utils import process_data
+from utils.general_utils import process_strat_data
 
 ##
 # Setting up conditions for command line inputs.
@@ -22,11 +22,23 @@ parser.add_argument("-f", "--folds", type=int, default=10,
 
 
 ##
-# Split the data into training and testing lists.
-# Output: A tuple. First value is training_list, second is testing_list.
+# Organise the folds into a training list and testing list.
+# Input: folds_list - A list of stratified lists, each representing a stratified fold.
+#        curr_fold - The current fold we are using for test.
+#        total_folds - Total number of folds.
+# Output: A tuple with 2 lists. First list is training, second it testing.
 #
-def seperate_list(unsplit_list, fold, total_folds):
-    pass
+def split_folds(folds_list, curr_fold, total_folds):
+    training_list = []
+    testing_list = folds_list[curr_fold]
+
+    for i in range(curr_fold):
+        training_list += folds_list[i]
+
+    for i in range(curr_fold + 1, len(folds_list)):
+        training_list += folds_list[i]
+
+    return training_list, testing_list
 
 
 ##
@@ -59,12 +71,12 @@ if __name__ == "__main__":
         print("Need to provide K value with Nearest Neighbour.")
         exit()
 
-    # Grab list of Data objects from file.
-    unsplit_list = process_data(cmd_args.training)
+    # Grab a list containing lists which represent each stratified fold from a file.
+    folds_list = process_strat_data(cmd_args.training)
 
     for fold in range(cmd_args.folds):
-        # Take a list of "Data" objects and split them.
-        (training_list, testing_list) = seperate_list(unsplit_list, fold, cmd_args.folds)
+        # Take a list of fold lists and seperate into trainig and testing sets.
+        (training_list, testing_list) = split_folds(folds_list, fold, cmd_args.folds)
         true_out = get_true_output(testing_list)
 
         if cmd_args.mode == "NB":
