@@ -17,7 +17,8 @@ def process_args():
 
 ##
 # Process a data file by extracting the data from each row.
-# Input: Location of file. Optional mapping for attribute name to index.
+# Input: data_file - Location of file
+#        mapping - Optional mapping for attribute name to index.
 # Output: A list of "Data" objects representing each row of the file.
 #
 def process_data(data_file, mapping=None):
@@ -27,9 +28,7 @@ def process_data(data_file, mapping=None):
     # First to second last items are attributes. Last item is class value.
     with open(data_file, "r") as f:
         for line in f:
-            row_vals = line.strip().split(",")
-            attributes = [float(val) for val in row_vals[:-1]]
-            class_value = True if row_vals[-1] == "yes" else False
+            (attributes, class_value) = _process_line(line)
 
             if mapping:
                 data_list.append(Data(attributes, class_value, mapping))
@@ -40,8 +39,45 @@ def process_data(data_file, mapping=None):
 
 
 ##
+# Process a stratified data file into a list of stratified lists. Each stratified list
+# represents a stratified fold.
+#
+def process_strat_data(data_file):
+    folds_list = []
+
+    with open(data_file, "r") as f:
+        fold = []
+
+        for line in f:
+            if line.strip().startwith("fold"):
+                fold = []
+            elif not line.strip():
+                folds_list.append(fold)
+            else:
+                (attributes, class_value) = _process_line(line)
+                fold.append(Data(attributes, class_value))
+
+        # Python has no way to detect EOF in a nice manner, so once we finish
+        # going through all the lines, just add the fold to the folds_list
+        folds_list.append(fold)
+
+    return folds_list
+
+
+##
+# Private function to process a row.
+#
+def _process_line(line):
+    row_vals = line.strip().split(",")
+    attributes = [float(val) for val in row_vals[:-1]]
+    class_value = True if row_vals[-1] == "yes" else False
+
+    return attributes, class_value
+
+
+##
 # Calculate the Euclidean distance between 2 points.
-# Input: 2 Lists of floats.
+# Input: first_list and second_list - List of floats representing attributes.
 # Output: A float representing the Euclidean distance.
 #
 def calc_euclid_dist(first_list, second_list):
@@ -55,6 +91,7 @@ def calc_euclid_dist(first_list, second_list):
 
 ##
 # Print 'yes' or 'no' values depending on a Boolean value from a list.
+# Input: boolean_list - List of True and False values.
 #
 def print_output(boolean_list):
     for boolean in boolean_list:
