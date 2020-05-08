@@ -47,7 +47,21 @@ def split_folds(folds_list, curr_fold, total_folds):
 # Output: Percentage value (float) of accuracy.
 #
 def evaluate(classifier_out, true_out):
-    pass
+    assert len(classifier_out) == len(true_out), "Length of 'classifier_output' list and 'true_output' list are not equal."
+
+    correctly_classified = 0
+    incorrectly_classified = 0
+
+    i = 0
+    while i < len(classifier_out):
+        if classifier_out[i] == true_out[i]:
+            correctly_classified +=1
+        else:
+            incorrectly_classified +=1
+        i+=1
+    
+    accuracy = correctly_classified/(correctly_classified + incorrectly_classified)
+    return accuracy
 
 
 ##
@@ -57,7 +71,15 @@ def evaluate(classifier_out, true_out):
 # Note: 'true' represents a classification of 'yes', 'false' represents 'no'.
 #
 def get_true_output(testing_list):
-    pass
+    true_output = []
+
+    for Data_obj in testing_list:
+        if Data_obj.get_class_val():    #if Data_obj is has a 'yes' classification, condition will run
+            true_output.append(True)
+        else:
+            true_output.append(False)
+    return array(true_output)
+
 
 
 ##
