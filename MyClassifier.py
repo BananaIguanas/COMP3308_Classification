@@ -1,4 +1,4 @@
-from utils.general_utils import calc_euclid_dist
+from utils.general_utils import calc_euclid_dist, calc_norm_prob
 
 
 ##
@@ -7,7 +7,20 @@ from utils.general_utils import calc_euclid_dist
 # Output: List of "True" or "False" values.
 #
 def run_nb(training_list, testing_list):
-    return
+    output = []
+
+    for test_data_obj in testing_list:
+        prob_yes = 1
+        prob_no = 1
+        attr_val_list = test_data_obj.get_all_att()
+
+        for i in range(len(attr_val_list)):
+            prob_yes *= calc_norm_prob(i, attr_val_list[i], True, training_list)
+            prob_no *= calc_norm_prob(i, attr_val_list[i], False, training_list)
+
+        output.append(True if prob_yes >= prob_no else False)
+
+    return output
 
 
 ##
