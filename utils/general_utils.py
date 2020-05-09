@@ -65,7 +65,7 @@ def process_strat_data(data_file):
 
 
 ##
-# Private function to process a row.
+# Private function to process a data row/line in a data file.
 #
 def _process_line(line):
     row_vals = line.strip().split(",")
