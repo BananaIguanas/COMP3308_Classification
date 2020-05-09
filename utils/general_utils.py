@@ -1,6 +1,7 @@
 from sys import argv
-from math import sqrt
+from math import sqrt, pi, e
 from .data import Data
+from statistics import mean, pstdev
 
 
 ##
@@ -87,6 +88,26 @@ def calc_euclid_dist(first_list, second_list):
     diff_squared = list(map(lambda x: x**2, diff))
 
     return sqrt(sum(diff_squared))
+
+
+##
+# Calcualte the probability of a value using a normal distribution
+#
+def calc_norm_prob(attr_name, attr_val, class_val, data_list):
+    attr_list = []
+
+    for data_obj in data_list:
+        if data_obj.get_class_val() == class_val:
+            attr_list.append(data_obj.get_att(attr_name))
+
+    mean_val = mean(attr_list)
+    stdev = pstdev(attr_list, mean_val)
+
+    multiple = 1/(stdev * sqrt(2 * pi))
+    base = e
+    power = -(((attr_val - mean)**2)/(2 * (stdev**2)))
+
+    return multiple * (base**power)
 
 
 ##
