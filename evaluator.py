@@ -47,39 +47,33 @@ def split_folds(folds_list, curr_fold, total_folds):
 # Output: Percentage value (float) of accuracy.
 #
 def evaluate(classifier_out, true_out):
-    assert len(classifier_out) == len(true_out), "Length of 'classifier_output' list and 'true_output' list are not equal."
-
     correctly_classified = 0
     incorrectly_classified = 0
 
-    i = 0
-    while i < len(classifier_out):
+    if len(classifier_out != len(true_out)):
+        print("Length of 'classifier_output' list and 'true_output' list are not equal.")
+        exit()
+
+    for i in range(len(classifier_out)):
         if classifier_out[i] == true_out[i]:
-            correctly_classified +=1
+            correctly_classified += 1
         else:
-            incorrectly_classified +=1
-        i+=1
-    
-    accuracy = correctly_classified/(correctly_classified + incorrectly_classified)
+            incorrectly_classified += 1
+
+    accuracy = correctly_classified/(correctly_classified + incorrectly_classified) * 100
     return accuracy
 
 
 ##
 # Gets the true classifications of the testing list.
 # Input: A list of "Data" objects.
-# Output: Array of 'true' or 'false' values.
+# Output: A list of 'true' or 'false' values.
 # Note: 'true' represents a classification of 'yes', 'false' represents 'no'.
 #
 def get_true_output(testing_list):
-    true_output = []
+    true_output = [data_obj.get_class_val() for data_obj in testing_list]
 
-    for Data_obj in testing_list:
-        if Data_obj.get_class_val():    #if Data_obj is has a 'yes' classification, condition will run
-            true_output.append(True)
-        else:
-            true_output.append(False)
-    return array(true_output)
-
+    return true_output
 
 
 ##
