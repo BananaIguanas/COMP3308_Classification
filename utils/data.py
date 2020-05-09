@@ -3,7 +3,7 @@ class Data:
     ##
     # Constructor
     # Input: attributes - List of floats.
-    #        class_values - Boolean.
+    #        class_value - Boolean.
     #        att_mapping - Set which maps name to an index of the attributes list.
     #
     def __init__(self, attributes, class_value, att_mapping=None):
