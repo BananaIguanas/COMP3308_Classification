@@ -50,7 +50,7 @@ def evaluate(classifier_out, true_out):
     correctly_classified = 0
     incorrectly_classified = 0
 
-    if len(classifier_out != len(true_out)):
+    if len(classifier_out) != len(true_out):
         print("Length of 'classifier_output' list and 'true_output' list are not equal.")
         exit()
 
@@ -86,6 +86,8 @@ if __name__ == "__main__":
     if cmd_args.mode == "NN" and not cmd_args.k_value:
         print("Need to provide K value with Nearest Neighbour.")
         exit()
+    else:
+        print("Loading...")
 
     # Grab a list containing lists which represent each stratified fold from a file.
     folds_list = process_strat_data(cmd_args.training)
@@ -99,5 +101,7 @@ if __name__ == "__main__":
             total += evaluate(run_nb(training_list, testing_list), true_out)
         else:
             total += evaluate(run_knn(training_list, testing_list, cmd_args.k), true_out)
+
+        print(f"Fold {fold + 1} Completed")
 
     print(f"Average accuracy of {cmd_args.folds} folds: {total/cmd_args.folds}%")
