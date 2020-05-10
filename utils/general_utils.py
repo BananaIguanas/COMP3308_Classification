@@ -11,7 +11,10 @@ def process_args():
     training_file = argv[1]
     testing_file = argv[2]
     algorithm = argv[3][-2:]
-    nn_k_value = int(argv[3][:-2])
+    nn_k_value = None
+
+    if argv[3][:-2] != '':
+        nn_k_value = int(argv[3][:-2])
 
     return training_file, testing_file, algorithm, nn_k_value
 
@@ -50,7 +53,7 @@ def process_strat_data(data_file):
         fold = []
 
         for line in f:
-            if line.strip().startwith("fold"):
+            if line.strip().startswith("fold"):
                 fold = []
             elif not line.strip():
                 folds_list.append(fold)
@@ -105,7 +108,7 @@ def calc_norm_prob(attr_name, attr_val, class_val, data_list):
 
     multiple = 1/(stdev * sqrt(2 * pi))
     base = e
-    power = -(((attr_val - mean)**2)/(2 * (stdev**2)))
+    power = -(((attr_val - mean_val)**2)/(2 * (stdev**2)))
 
     return multiple * (base**power)
 
