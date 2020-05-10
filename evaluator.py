@@ -14,11 +14,8 @@ parser.add_argument("training",
 parser.add_argument("mode", choices=["NB", "NN"], default="NB",
                     help="Run classifier with Naive Bayes algorithm")
 
-parser.add_argument("-k", "--k_value",
+parser.add_argument("-k", "--k_value", type=int,
                     help="K value to use with K Nearest Neighbour Algorithm.")
-
-parser.add_argument("-f", "--folds", type=int, default=10,
-                    help="Number of folds the Evaluator should run with")
 
 
 ##
@@ -82,6 +79,7 @@ def get_true_output(testing_list):
 if __name__ == "__main__":
     cmd_args = parser.parse_args()
     total = 0
+    total_folds = 10
 
     if cmd_args.mode == "NN" and not cmd_args.k_value:
         print("Need to provide K value with Nearest Neighbour.")
@@ -92,16 +90,16 @@ if __name__ == "__main__":
     # Grab a list containing lists which represent each stratified fold from a file.
     folds_list = process_strat_data(cmd_args.training)
 
-    for fold in range(cmd_args.folds):
+    for fold in range(total_folds):
         # Take a list of fold lists and seperate into trainig and testing sets.
-        (training_list, testing_list) = split_folds(folds_list, fold, cmd_args.folds)
+        (training_list, testing_list) = split_folds(folds_list, fold, total_folds)
         true_out = get_true_output(testing_list)
 
         if cmd_args.mode == "NB":
             total += evaluate(run_nb(training_list, testing_list), true_out)
         else:
-            total += evaluate(run_knn(training_list, testing_list, cmd_args.k), true_out)
+            total += evaluate(run_knn(training_list, testing_list, cmd_args.k_value), true_out)
 
         print(f"Fold {fold + 1} Completed")
 
-    print(f"Average accuracy of {cmd_args.folds} folds: {total/cmd_args.folds}%")
+    print(f"Average accuracy of {total_folds} folds: {total/total_folds}%")
