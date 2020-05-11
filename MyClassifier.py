@@ -1,4 +1,4 @@
-from utils.general_utils import calc_euclid_dist, calc_norm_prob
+from utils.general_utils import calc_euclid_dist, calc_norm_prob, gen_classifier
 
 
 ##
@@ -8,6 +8,7 @@ from utils.general_utils import calc_euclid_dist, calc_norm_prob
 #
 def run_nb(training_list, testing_list):
     output = []
+    classifier = gen_classifier(training_list)
 
     for test_data_obj in testing_list:
         prob_yes = 1
@@ -15,8 +16,8 @@ def run_nb(training_list, testing_list):
         attr_val_list = test_data_obj.get_all_att()
 
         for i in range(len(attr_val_list)):
-            prob_yes *= calc_norm_prob(i, attr_val_list[i], True, training_list)
-            prob_no *= calc_norm_prob(i, attr_val_list[i], False, training_list)
+            prob_yes *= calc_norm_prob(i, attr_val_list[i], True, classifier)
+            prob_no *= calc_norm_prob(i, attr_val_list[i], False, classifier)
 
         output.append(True if prob_yes >= prob_no else False)
 
