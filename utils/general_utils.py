@@ -85,8 +85,25 @@ def _process_line(line):
 # Output: A float representing the Euclidean distance.
 #
 def calc_euclid_dist(first_list, second_list):
-    # List of all items from "first_list" minus "second_list"
-    diff = [first_list[i] - second_list[i] for i in range(len(second_list))]
+    len_first = len(first_list)
+    len_second = len(second_list)
+    diff = []
+
+    if len_first > len_second:
+        diff = [first_list[i] - second_list[i] for i in range(len_second)]
+
+        for i in range(len_second, len_first):
+            diff.append(max(abs(first_list[i]), abs(1 - first_list[i])))
+
+    elif len_second > len_first:
+        diff = [first_list[i] - second_list[i] for i in range(len_first)]
+
+        for i in range(len_first, len_second):
+            diff.append(max(abs(first_list[i]), abs(1 - first_list[i])))
+
+    else:
+        diff = [first_list[i] - second_list[i] for i in range(len_first)]
+
     # List of all items from "diff" squared.
     diff_squared = list(map(lambda x: x**2, diff))
 
