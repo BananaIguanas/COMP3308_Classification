@@ -72,7 +72,7 @@ if __name__ == "__main__":
 
     # Get list of "Data" objects from a file.
     training_list = process_data(training_file)
-    testing_list = process_data(testing_file)
+    testing_list = process_data(testing_file, training=False)
 
     if mode == "NB":
         output = run_nb(training_list, testing_list)
