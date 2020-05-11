@@ -99,7 +99,7 @@ def calc_euclid_dist(first_list, second_list):
         diff = [first_list[i] - second_list[i] for i in range(len_first)]
 
         for i in range(len_first, len_second):
-            diff.append(max(abs(first_list[i]), abs(1 - first_list[i])))
+            diff.append(max(abs(second_list[i]), abs(1 - second_list[i])))
 
     else:
         diff = [first_list[i] - second_list[i] for i in range(len_first)]
