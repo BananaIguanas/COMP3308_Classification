@@ -86,7 +86,7 @@ def _process_line(line):
 #
 def calc_euclid_dist(first_list, second_list):
     # List of all items from "first_list" minus "second_list"
-    diff = [first_list[i] - second_list[i] for i in range(len(first_list))]
+    diff = [first_list[i] - second_list[i] for i in range(len(second_list))]
     # List of all items from "diff" squared.
     diff_squared = list(map(lambda x: x**2, diff))
 
@@ -96,21 +96,49 @@ def calc_euclid_dist(first_list, second_list):
 ##
 # Calcualte the probability of a value using a normal distribution
 #
-def calc_norm_prob(attr_name, attr_val, class_val, data_list):
-    attr_list = []
+def calc_norm_prob(attr_name, attr_val, class_val, classifier):
 
-    for data_obj in data_list:
-        if data_obj.get_class_val() == class_val:
-            attr_list.append(data_obj.get_att(attr_name))
-
-    mean_val = mean(attr_list)
-    stdev = pstdev(attr_list, mean_val)
+    class_val = 1 if class_val else 0
+    mean_val = classifier[class_val][attr_name][0]
+    stdev = classifier[class_val][attr_name][1]
 
     multiple = 1/(stdev * sqrt(2 * pi))
     base = e
-    power = -(((attr_val - mean_val)**2)/(2 * (stdev**2)))
+    pow_denominator = (2 * (stdev**2))
+    power = -(((attr_val - mean_val)**2)/pow_denominator)
 
     return multiple * (base**power)
+
+
+##
+# Make the classifier for Naive Bayes
+#
+def gen_classifier(data_list):
+    # 0 is false, 1 is true. Contains tuples. Mean is 0 in tuple, stdev is 1.
+    classifier = [[], []]
+
+    attr_len = len(data_list[0].get_all_att())
+
+    for attr_name in range(attr_len):
+        attr_list_true = []
+        attr_list_false = []
+
+        for data_obj in data_list:
+            if data_obj.get_class_val():
+                attr_list_true.append(data_obj.get_att(attr_name))
+            else:
+                attr_list_false.append(data_obj.get_att(attr_name))
+
+        mean_val_true = mean(attr_list_true)
+        stdev_true = pstdev(attr_list_true, mean_val_true)
+
+        mean_val_false = mean(attr_list_false)
+        stdev_false = pstdev(attr_list_false, mean_val_false)
+
+        classifier[1].append((mean_val_true, stdev_true))
+        classifier[0].append((mean_val_false, stdev_false))
+
+    return classifier
 
 
 ##
