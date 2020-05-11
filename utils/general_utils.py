@@ -25,19 +25,25 @@ def process_args():
 #        mapping - Optional mapping for attribute name to index.
 # Output: A list of "Data" objects representing each row of the file.
 #
-def process_data(data_file, mapping=None):
+def process_data(data_file, mapping=None, training=True):
     data_list = []
 
     # Open up the file and create data objects.
     # First to second last items are attributes. Last item is class value.
     with open(data_file, "r") as f:
         for line in f:
-            (attributes, class_value) = _process_line(line)
-
-            if mapping:
-                data_list.append(Data(attributes, class_value, mapping))
+            if training:
+                (attributes, class_value) = _process_line(line)
+                if mapping:
+                    data_list.append(Data(attributes, class_value, mapping))
+                else:
+                    data_list.append(Data(attributes, class_value))
             else:
-                data_list.append(Data(attributes, class_value))
+                (attributes, class_value) = _process_test_line(line)
+                if mapping:
+                    data_list.append(Data(attributes, class_value, mapping))
+                else:
+                    data_list.append(Data(attributes, class_value))
 
     return data_list
 
@@ -69,7 +75,7 @@ def process_strat_data(data_file):
 
 
 ##
-# Private function to process a data row/line in a data file.
+# Private function to process a data row/line in a data file in general.
 #
 def _process_line(line):
     row_vals = line.strip().split(",")
@@ -80,6 +86,17 @@ def _process_line(line):
         class_value = True
     elif row_vals[-1] == "no":
         class_value = False
+
+    return attributes, class_value
+
+
+##
+# Private function to process a data row/line in a data file in general.
+#
+def _process_test_line(line):
+    row_vals = line.strip().split(",")
+    attributes = [float(val) for val in row_vals]
+    class_value = None
 
     return attributes, class_value
 
