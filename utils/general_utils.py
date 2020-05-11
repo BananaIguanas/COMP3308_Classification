@@ -74,7 +74,12 @@ def process_strat_data(data_file):
 def _process_line(line):
     row_vals = line.strip().split(",")
     attributes = [float(val) for val in row_vals[:-1]]
-    class_value = True if row_vals[-1] == "yes" else False
+    class_value = None
+
+    if row_vals[-1] == "yes":
+        class_value = True
+    elif row_vals[-1] == "no":
+        class_value = False
 
     return attributes, class_value
 
@@ -85,25 +90,7 @@ def _process_line(line):
 # Output: A float representing the Euclidean distance.
 #
 def calc_euclid_dist(first_list, second_list):
-    len_first = len(first_list)
-    len_second = len(second_list)
-    diff = []
-
-    if len_first > len_second:
-        diff = [first_list[i] - second_list[i] for i in range(len_second)]
-
-        for i in range(len_second, len_first):
-            diff.append(max(abs(first_list[i]), abs(1 - first_list[i])))
-
-    elif len_second > len_first:
-        diff = [first_list[i] - second_list[i] for i in range(len_first)]
-
-        for i in range(len_first, len_second):
-            diff.append(max(abs(second_list[i]), abs(1 - second_list[i])))
-
-    else:
-        diff = [first_list[i] - second_list[i] for i in range(len_first)]
-
+    diff = [first_list[i] - second_list[i] for i in range(len(first_list))]
     # List of all items from "diff" squared.
     diff_squared = list(map(lambda x: x**2, diff))
 
