@@ -132,6 +132,18 @@ def calc_norm_prob(attr_name, attr_val, class_val, classifier):
 
 
 ##
+# Calcuate the probability of the class value.
+#
+def calc_class_prob(class_value, data_list):
+    total = 0
+    for data in data_list:
+        if data.get_class_val() == class_value:
+            total += 1
+
+    return total/len(data_list)
+
+
+##
 # Make the classifier for Naive Bayes
 #
 def gen_classifier(data_list):
@@ -145,10 +157,12 @@ def gen_classifier(data_list):
         attr_list_false = []
 
         for data_obj in data_list:
-            if data_obj.get_class_val():
+            if data_obj.get_class_val() is True:
                 attr_list_true.append(data_obj.get_att(attr_name))
-            else:
+            elif data_obj.get_class_val() is False:
                 attr_list_false.append(data_obj.get_att(attr_name))
+            else:
+                raise TypeError("Not a Boolean.")
 
         mean_val_true = mean(attr_list_true)
         stdev_true = pstdev(attr_list_true, mean_val_true)
