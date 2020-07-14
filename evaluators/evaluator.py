@@ -1,7 +1,7 @@
 from sys import exit
 from classifier import run_nb, run_knn
 import argparse
-from utils.general_utils import process_strat_data
+from ..utils.process_utils import process_strat_data
 
 ##
 # Setting up conditions for command line inputs.
@@ -75,6 +75,8 @@ def get_true_output(testing_list):
 
 ##
 # Main Method.
+# FIXME: Remove main method, as this is not intend to be an entry point anymore.
+# Entry should be via ml_classifier.
 #
 if __name__ == "__main__":
     cmd_args = parser.parse_args()
