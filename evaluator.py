@@ -1,5 +1,5 @@
 from sys import exit
-from MyClassifier import run_nb, run_knn
+from classifier import run_nb, run_knn
 import argparse
 from utils.general_utils import process_strat_data
 
