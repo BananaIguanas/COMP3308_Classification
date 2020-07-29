@@ -4,7 +4,7 @@ A data classification tool utilizing machine learning techniques. The technique 
 
 # Usage
 The python module `ml_classifer.py` is the entrypoint and can be used as such:  
-`python3 ml_classifier <training_file> <testing_file> <mode>`  
+`python3 ml_classifier.py <training_file> <testing_file> <mode>`  
 
 Where:  
 `<training_file>` is the path to the training CSV file.  
